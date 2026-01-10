@@ -26,3 +26,4 @@ dist-ssr
 # My own ignore
 dist
 .env
+project_guide.txt
