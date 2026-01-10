@@ -4,9 +4,10 @@ import cors from "cors";
 import pool from "./config/db.js";
 import { SVPORT, APPORG } from "./constants/env.js";
 import cookieParser from "cookie-parser";
-import errorHandler from "./middleware/errorHandles.js";
+import errorHandler from "./middleware/errorHandler.js";
 import catchErrors from "./utils/catchErrors.js";
 import { OK } from "./constants/http.js";
+import authRoutes from "./routes/auth.route.js";
 
 const app = express();
 
@@ -25,6 +26,9 @@ app.get("/", (req, res, next) => {
     status: "success",
   });
 });
+
+// auth routes
+app.use("/auth", authRoutes);
 
 app.use(errorHandler);
 
