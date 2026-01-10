@@ -1,6 +1,4 @@
-import dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 // Returns the PORT Number from env
 const getNumberEnv = (key: string, defaultValue?: number): number => {
@@ -20,8 +18,23 @@ const getNumberEnv = (key: string, defaultValue?: number): number => {
   return parsed;
 };
 
-export const DBUSER = process.env.DBUSER;
-export const DBPASS = process.env.DBPASS;
-export const DBHOST = process.env.DBHOST;
-export const DBNAME = process.env.DBNAME;
+const getStringEnv = (key: string, defaultValue?: string): string => {
+  const value = process.env[key] || defaultValue;
+  if (value === undefined) {
+    throw new Error(`Missing environment variable ${key}`);
+  }
+  return value;
+};
+
+// DATABASE ENV
+export const DBUSER = getStringEnv("DBUSER");
+export const DBPASS = getStringEnv("DBPASS");
+export const DBHOST = getStringEnv("DBHOST");
+export const DBNAME = getStringEnv("DBNAME");
+
+// PORTS
 export const DBPORT = getNumberEnv("DBPORT");
+export const SVPORT = getNumberEnv("PORT");
+
+// CORS
+export const APPORG = getStringEnv("APP_ORIGIN");
