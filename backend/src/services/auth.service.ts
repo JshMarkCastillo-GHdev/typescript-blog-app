@@ -7,7 +7,7 @@ export type CreateAccountParams = {
   userAgent?: string;
 };
 export const createAccount = async (data: CreateAccountParams) => {
-  // verify if existing user alread exist
+  // verify if existing user already exist
   const existingUser = await userRepository.findByEmail(data.email);
   if (existingUser) {
     throw new Error("User already exists");
@@ -19,8 +19,7 @@ export const createAccount = async (data: CreateAccountParams) => {
   const user = await userRepository.createUser(data.email, hashedPassword);
 
   return user;
-
-  // create verification code (ignore for now)
+  // create verification code (DO TOMORROW)
   // send verification email (ignore for now)
   // create session (ignore for now)
   // sign access token & refresh token (ignore for now)
