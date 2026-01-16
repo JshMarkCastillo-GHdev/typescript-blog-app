@@ -1,5 +1,9 @@
+import VerificationCodeType from "../constants/verificationCodeType.js";
 import { userRepository } from "../models/user.repository.js";
+import { verificationCodeRepository } from "../models/verificationCode.repository.js";
 import { hashValue } from "../utils/bcrypt.js";
+import { oneHourFromNow } from "../utils/date.js";
+import crypto from "crypto";
 
 export type CreateAccountParams = {
   email: string;
@@ -15,13 +19,23 @@ export const createAccount = async (data: CreateAccountParams) => {
 
   // create user
   const hashedPassword = await hashValue(data.password);
-
   const user = await userRepository.createUser(data.email, hashedPassword);
 
-  return user;
-  // create verification code (DO TOMORROW)
-  // send verification email (ignore for now)
-  // create session (ignore for now)
+  // create verification code (go back later)
+  const vrCode = crypto.randomUUID();
+
+  await verificationCodeRepository.create({
+    userId: user.id,
+    type: VerificationCodeType.EmailVerification,
+    code: vrCode,
+    expiresAt: oneHourFromNow(),
+  });
+
+  // send verification email (do later)
+
+  // create session (later)
+
   // sign access token & refresh token (ignore for now)
   // return user & tokens (ignore for now)
+  return user;
 };
